@@ -1,0 +1,5 @@
+ingress:
+  enabled: true
+  className: "private"
+  annotations:
+    cert-manager.io/cluster-issuer: "zerossl-cert-issuer"

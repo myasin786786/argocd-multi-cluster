@@ -1,5 +1,7 @@
 ## Need to adjusted to your environment and requirements
 ## This is for demo purpose only
+global:
+  domain: argocd.eu-01-a.internal.${PREFIX}.com
 configs:
   params:
     server.insecure: true ## only for demo purpose - do not use in production
@@ -9,7 +11,7 @@ configs:
   #     g, learndevopsdotin:ArgoCDReadOnly, role:readonly
   cm:
     ## https://argo-cd.readthedocs.io/en/stable/operator-manual/user-management/#2-configure-argo-cd-for-sso
-    url: https://argocd.eu-01-a.internal.${PREFIX}.com
+    # url: https://argocd.eu-01-a.internal.${PREFIX}.com
     ## https://github.com/argoproj-labs/argocd-operator/issues/375#issuecomment-1966981870
     # dex.config: |
     #   connectors:
@@ -33,7 +35,7 @@ server:
     annotations:
       cert-manager.io/cluster-issuer: zerossl-cert-issuer
     ingressClassName: private
-    hostname: argocd.eu-01-a.internal.${PREFIX}.com  ## will be only reachable if all other components are in place
+    # hostname: argocd.eu-01-a.internal.${PREFIX}.com  ## will be only reachable if all other components are in place
     pathType: ImplementationSpecific
     tls: true
 # controller:

@@ -27,7 +27,11 @@ resource "helm_release" "argocd_bootstrap_app" {
 
   ## Why using file() with values -> https://github.com/hashicorp/terraform-provider-helm/issues/838
   values = [
-    file("${path.module}/values/argocd-apps.yaml")
+    templatefile("${path.module}/values/argocd-apps.yaml",
+      {
+        PREFIX = var.prefix
+      }
+    )
   ]
 
   depends_on = [
