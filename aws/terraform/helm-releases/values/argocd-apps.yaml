@@ -1,0 +1,46 @@
+## Chart source : https://artifacthub.io/packages/helm/argo/argocd-apps
+
+# -- Deploy Argo CD Applications within this helm release
+## Ref: https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/
+applications:
+- name: sample-app
+  namespace: argocd
+  project: demo-project
+  sources:
+    - repoURL: 'https://github.com/ishuar/argocd-multi-cluster.git'
+      path: charts/sample-app
+      targetRevision: main
+      helm:
+        valueFiles:
+          - $values/argocd/envs/dev/aws/eu-central-01/demo-app/values.yaml
+    - repoURL: 'https://github.com/ishuar/argocd-multi-cluster.git'
+      targetRevision: feat/aws
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: false
+  revisionHistoryLimit: null
+  info:
+  - name: 'README'
+    value: https://github.com/ishuar/platform-engineering/blob/main/argocd/README.md
+
+# -- Deploy Argo CD Projects within this helm release
+## Ref: https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/
+projects:
+- name: demo-project
+  namespace: argocd
+  description: Project for all applications involved in the demo-project tasks.
+  sourceRepos:
+  - '*'
+  destinations:
+  - server: https://kubernetes.default.svc
+    namespace: '*'
+  sourceNamespaces:
+  - argocd
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'
