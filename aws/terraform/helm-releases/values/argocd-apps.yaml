@@ -13,13 +13,14 @@ applications:
         helm:
           valueFiles:
             - $values/argocd/envs/dev/aws/eu-central-01/demo-app/values.yaml
-            - ingress:
-                hosts:
-                  - host: sample-app.eu-01-a.${PREFIX}.com
-                    paths:
-                      - path: /
-                        pathType: ImplementationSpecific
-                tls:
+          valuesObject:
+            ingress:
+              hosts:
+                - host: sample-app.eu-01-a.${PREFIX}.com
+                  paths:
+                    - path: /
+                      pathType: ImplementationSpecific
+              tls:
                 - secretName: sample-app-tls
                   hosts:
                     - sample-app.eu-01-a.${PREFIX}.com
